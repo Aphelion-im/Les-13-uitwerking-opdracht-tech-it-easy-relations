@@ -6,7 +6,8 @@ INSERT INTO wall_bracket (id, size, adjustable, name, price) VALUES (1001, '25X3
 (1005, '25X32', false, 'Nikkei bracket', 32.23);
 
 -- Een OneToMany relatie tussen Television en CI-Module
-INSERT INTO cimodule (id, name, type, price) VALUES (1001, 'universal CI-module', '23JI12', 32.5);
+INSERT INTO cimodule (id, name, type, price) VALUES (1001, 'universal CI-module', '23JI12', 32.5),
+(1002, 'universal CI-module v2', '23JI13', 45.5);
 
 -- Een OneToOne relatie tussen Television en RemoteController
 INSERT INTO remote_controller (id, compatible_with, battery_type, name, brand, price, original_stock) VALUES (1001, 'NH3216SMART', 'AAA', 'Nikkei HD smart TV controller', 'Nikkei', 12.99, 235885),

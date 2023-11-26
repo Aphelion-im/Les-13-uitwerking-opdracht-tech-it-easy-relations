@@ -20,7 +20,7 @@ public class RemoteController {
     private Integer originalStock;
 
     // Dit is de target kant van de relatie. Er staat niks in de database
-    @OneToOne(mappedBy = "remoteController")
+    @OneToOne(mappedBy = "remoteController") // (mappedBy = "remoteController")?
     Television television;
 
 //    De constructors hoeven niet gemaakt te worden mag wel

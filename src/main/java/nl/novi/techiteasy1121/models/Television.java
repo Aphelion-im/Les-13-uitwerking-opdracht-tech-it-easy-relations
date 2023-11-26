@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import jakarta.persistence.*;
+
 import java.util.Collection;
 
 @Entity
@@ -33,24 +34,29 @@ public class Television {
     private Integer originalStock;
     private Integer sold;
 
-    // Dit is de owner kan van de relatie. Er staat een foreign key in de database
+    // Dit is de owner kan van de relatie. Er staat een foreign key in de database (kolom remote_controller_id waarschijnlijk)
+    // Kolom remote_controller_id staat niet hier tussen de velden van deze klasse en ook niet in de TelevisionDto
+    // Idem dito met ci_module_id. Waarschijnlijk maakt SB deze 2 foreign key kolommen automatisch aan met deze annotaties.
+    // Een OneToOne relatie tussen Television en RemoteController
     @OneToOne
     RemoteController remoteController;
 
     // Dit is de owner kan van de relatie. Er staat een foreign key in de database
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ci_module_id")
+    // Een OneToMany relatie tussen Television en CI-Module
+    @ManyToOne(fetch = FetchType.EAGER) // fetch = FetchType.EAGER?
+    @JoinColumn(name = "ci_module_id") //  @JoinColumn(name = "ci_module_id")?
     private CIModule ciModule;
 
     // Dit is de target kant van de relatie. Er staat niks in de database
-    @OneToMany(mappedBy = "television")
+    @OneToMany(mappedBy = "television") // Waarom staat er OneToMany als het een ManyToMany is?
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
     Collection<TelevisionWallBracket> televisionWallBrackets;
 
-//    constructors hoeven niet per se aangemaakt te worden
+    // Constructors hoeven niet per se aangemaakt te worden
     // Een default constructor
-    public Television() {}
+    public Television() {
+    }
 
     // Een constructor met alle gevraagde variable
     public Television(
@@ -70,7 +76,7 @@ public class Television {
             Boolean bluetooth,
             Boolean ambiLight,
             Integer originalStock,
-            Integer sold ) {
+            Integer sold) {
         this.id = id;
         this.type = type;
         this.brand = brand;

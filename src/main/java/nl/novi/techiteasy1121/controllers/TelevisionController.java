@@ -55,14 +55,26 @@ public class TelevisionController {
 
     }
 
+    // Geeft id terug in response + JSON body
+    // Niet zo als in vorige opdracht deze uitwerking
+    // Er is geen transferToDto() e.d.
     @PostMapping("/televisions")
     public ResponseEntity<Object> addTelevision(@Valid @RequestBody TelevisionInputDto televisionInputDto) {
 
         TelevisionDto dto = televisionService.addTelevision(televisionInputDto);
 
         return ResponseEntity.created(null).body(dto);
-
     }
+
+    // Vorige opdracht: https://github.com/Aphelion-im/Les-12-uitwerking-opdracht-tech-it-easy-service-dto/blob/main/src/main/java/nl/novi/techiteasy1121/services/TelevisionService.java
+//    public TelevisionDto addTelevision(TelevisionInputDto dto) {
+//        Television tv = transferToTelevision(dto);
+//        televisionRepository.save(tv);
+//        return transferToDto(tv);
+//    }
+
+
+
 
     @DeleteMapping("/televisions/{id}")
     public ResponseEntity<Object> deleteTelevision(@PathVariable Long id) {
@@ -83,6 +95,7 @@ public class TelevisionController {
 
     // Onderstaande 2 methodes zijn endpoints om andere entiteiten toe te voegen aan de Television.
     // Dit is één manier om dit te doen, met één PathVariable en één RequestBody.
+    // Remote_controller_id wel zichtbaar in de database onder Televisions
     @PutMapping("/televisions/{id}/remotecontroller")
     public ResponseEntity<Object> assignRemoteControllerToTelevision(@PathVariable("id") Long id,@Valid @RequestBody IdInputDto input) {
         televisionService.assignRemoteControllerToTelevision(id, input.id);

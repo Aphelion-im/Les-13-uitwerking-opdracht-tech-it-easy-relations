@@ -10,7 +10,7 @@ public class TelevisionWallBracket {
     @EmbeddedId
     private TelevisionWallBracketKey id;
 
-    // Dit is de owner kan van de relatie. Er staat een foreign key in de database
+    // Dit is de owner kant van de relatie. Er staat een foreign key in de database
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("televisionId")
     @JoinColumn(name = "television_id")

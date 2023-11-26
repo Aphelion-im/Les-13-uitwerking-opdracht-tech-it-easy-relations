@@ -1,9 +1,7 @@
 package nl.novi.techiteasy1121.controllers;
 
-
 import nl.novi.techiteasy1121.dtos.CIModuleDto;
 import nl.novi.techiteasy1121.services.CIModuleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +33,9 @@ public class CIModuleController {
         return ResponseEntity.ok(ciModuleDto);
     }
 
+    // Waarom geeft het id: null als return waarde in Postman?
+    // Waarom geen input/output CIModuleDto?
+    // Geen URI uri present/ Location van de resource URI.
     @PostMapping("/cimodules")
     public ResponseEntity<CIModuleDto> addCIModule(@RequestBody CIModuleDto dto) {
         CIModuleDto ciModuleDto = ciModuleService.addCIModule(dto);

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 //Deze embeddable class wordt gebruikt als Embedded Id in de TelevisionWallBracket class
-@Embeddable
+@Embeddable // ????
 public class TelevisionWallBracketKey implements Serializable {
 
     @Column(name = "television_id")

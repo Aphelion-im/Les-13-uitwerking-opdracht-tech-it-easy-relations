@@ -1,6 +1,7 @@
 package nl.novi.techiteasy1121.dtos;
-
 // validators mogen jullie eventueel zelf toevoegen
+// Bedoelt hij dat WallbracketInputDto nog apart aangemaakt moet worden?
+// Aangezien er wel een TelevisionDto en een TelevisionInputDto aanwezig is en daar bovenstaande tekst niet aanwezig is.
 
 public class WallBracketDto {
 

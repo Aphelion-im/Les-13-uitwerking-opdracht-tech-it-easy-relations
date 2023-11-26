@@ -50,12 +50,13 @@ public class CIModuleService  {
         ciModuleRepository.deleteById(id);
     }
 
+    // Bevat een error. Met de id
     public void updateCIModule(Long id, CIModuleDto ciModuleDto) {
         if(!ciModuleRepository.existsById(id)) {
             throw new RecordNotFoundException("No ci-module found");
         }
         CIModule storedCIModule = ciModuleRepository.findById(id).orElse(null);
-        storedCIModule.setId(ciModuleDto.getId());
+        storedCIModule.setId(ciModuleDto.getId()); // Geeft error 500: identifier of an instance of nl.novi.techiteasy1121.models.CIModule was altered from null to 1001
         storedCIModule.setType(ciModuleDto.getType());
         storedCIModule.setName(ciModuleDto.getName());
         storedCIModule.setPrice(ciModuleDto.getPrice());

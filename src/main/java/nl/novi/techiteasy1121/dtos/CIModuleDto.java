@@ -1,5 +1,6 @@
 package nl.novi.techiteasy1121.dtos;
 // validators mogen jullie eventueel zelf toevoegen
+// Bedoelt hij dat de CIModuleInputDto nog apart aangemaakt moet worden?
 
 public class CIModuleDto {
 
