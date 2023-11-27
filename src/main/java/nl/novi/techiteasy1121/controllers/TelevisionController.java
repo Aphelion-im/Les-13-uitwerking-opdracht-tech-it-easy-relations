@@ -53,12 +53,10 @@ public class TelevisionController {
         return ResponseEntity.created(null).body(televisionDto);
     }
 
-    // Geeft helaas geen melding na verwijderen
     @DeleteMapping("/televisions/{id}")
     public ResponseEntity<Object> deleteTelevision(@PathVariable Long id) {
         televisionService.deleteTelevision(id);
-        return ResponseEntity.noContent().build();
-        // return new ResponseEntity<>(id + "Item deleted", HttpStatus.NO_CONTENT); // Beide ResponseEntity vormen geven geen feedback
+        return ResponseEntity.noContent().build(); // Beide ResponseEntity vormen geven geen feedback na verwijderen van een item
     }
 
     @PutMapping("/televisions/{id}")

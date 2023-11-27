@@ -19,15 +19,15 @@ import java.util.Set;
 
 // Deze klasse bevat de service methodes van TelevisionWallBracketController.
 // Deze klasse wijkt af van de andere service-klassen, omdat deze in 3 verschillende controllers wordt ge-autowired.
-
+// Deze class heeft geen Dto
 @Service
 public class TelevisionWallBracketService{
 
-    private TelevisionRepository televisionRepository;
+    private final TelevisionRepository televisionRepository;
 
-    private WallBracketRepository wallBracketRepository;
+    private final WallBracketRepository wallBracketRepository;
 
-    private TelevisionWallBracketRepository televisionWallBracketRepository;
+    private final TelevisionWallBracketRepository televisionWallBracketRepository;
 
     public TelevisionWallBracketService(TelevisionRepository televisionRepository, WallBracketRepository wallBracketRepository, TelevisionWallBracketRepository televisionWallBracketRepository) {
         this.televisionRepository = televisionRepository;
@@ -36,7 +36,8 @@ public class TelevisionWallBracketService{
     }
 
     public Collection<TelevisionDto> getTelevisionsByWallBracketId(Long wallBracketId) {
-        Collection<TelevisionDto> dtos = new HashSet<>();
+        Collection<TelevisionDto> televisionDtoCollection = new HashSet<>();
+
         Collection<TelevisionWallBracket> televisionWallbrackets = televisionWallBracketRepository.findAllByWallBracketId(wallBracketId);
         for (TelevisionWallBracket televisionWallbracket : televisionWallbrackets) {
             Television television = televisionWallbracket.getTelevision();
@@ -60,15 +61,15 @@ public class TelevisionWallBracketService{
             televisionDto.setOriginalStock(television.getOriginalStock());
             televisionDto.setSold(television.getSold());
 
-            dtos.add(televisionDto);
+            televisionDtoCollection.add(televisionDto);
         }
-        return dtos;
+        return televisionDtoCollection;
     }
 
     // Collection is de super klasse van zowel List als Set.
     public Collection<WallBracketDto> getWallBracketsByTelevisionId(Long televisionId) {
         //We gebruiken hier Set om te voorkomen dat er dubbele entries in staan.
-        Set<WallBracketDto> dtos = new HashSet<>();
+        Set<WallBracketDto> wallBracketDtoSet = new HashSet<>();
         List<TelevisionWallBracket> televisionWallbrackets = televisionWallBracketRepository.findAllByTelevisionId(televisionId);
         for (TelevisionWallBracket televisionWallbracket : televisionWallbrackets) {
             WallBracket wallBracket = televisionWallbracket.getWallBracket();
@@ -80,11 +81,10 @@ public class TelevisionWallBracketService{
             dto.setAdjustable(wallBracket.getAdjustable());
             dto.setPrice(wallBracket.getPrice());
 
-            dtos.add(dto);
+            wallBracketDtoSet.add(dto);
         }
-        return dtos;
+        return wallBracketDtoSet;
     }
-
 
     public TelevisionWallBracketKey addTelevisionWallBracket(Long televisionId, Long wallBracketId) {
         var televisionWallBracket = new TelevisionWallBracket();

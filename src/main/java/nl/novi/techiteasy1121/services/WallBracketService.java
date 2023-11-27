@@ -1,6 +1,7 @@
 package nl.novi.techiteasy1121.services;
 
 import nl.novi.techiteasy1121.dtos.WallBracketDto;
+import nl.novi.techiteasy1121.dtos.WallBracketInputDto;
 import nl.novi.techiteasy1121.exceptions.RecordNotFoundException;
 import nl.novi.techiteasy1121.models.WallBracket;
 import nl.novi.techiteasy1121.repositories.WallBracketRepository;
@@ -10,12 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// Deze klasse bevat de service methodes van de WallBracketController
+
 @Service
 public class WallBracketService {
 
-
-    private WallBracketRepository wallBracketRepository;
+    private final WallBracketRepository wallBracketRepository;
 
     public WallBracketService(WallBracketRepository wallBracketRepository) {
         this.wallBracketRepository = wallBracketRepository;
@@ -32,16 +32,16 @@ public class WallBracketService {
 
     public WallBracketDto getWallBracket(long id) {
         Optional<WallBracket> wallBracket = wallBracketRepository.findById(id);
-        if(wallBracket.isPresent()) {
+        if (wallBracket.isPresent()) {
             WallBracketDto dto = transferToDto(wallBracket.get());
             return dto;
         } else {
-            throw new RecordNotFoundException("No wallbracket found");
+            throw new RecordNotFoundException("No wallbracket found with this id");
         }
     }
 
-    public WallBracketDto addWallbracket(WallBracketDto wallBracketDto) {
-        WallBracket wallBracket = transferToWallBracket(wallBracketDto);
+    public WallBracketDto addWallbracket(WallBracketInputDto wallBracketInputDto) {
+        WallBracket wallBracket = transferToWallBracket(wallBracketInputDto);
         wallBracketRepository.save(wallBracket);
         return transferToDto(wallBracket);
     }
@@ -50,20 +50,20 @@ public class WallBracketService {
         wallBracketRepository.deleteById(id);
     }
 
-    public WallBracketDto updateWallBracket(Long id, WallBracketDto wallBracketDto) {
-        if(!wallBracketRepository.existsById(id)) {
-            throw new RecordNotFoundException("No wallbracket found");
+    public WallBracketDto updateWallBracket(Long id, WallBracketInputDto wallBracketInputDto) {
+
+        if (wallBracketRepository.findById(id).isPresent()) {
+            WallBracket wallBracket = wallBracketRepository.findById(id).get();
+            WallBracket wallBracket1 = transferToWallBracket(wallBracketInputDto);
+            wallBracket1.setId(wallBracket.getId());
+            wallBracketRepository.save(wallBracket1);
+            return transferToDto(wallBracket1);
+        } else {
+            throw new RecordNotFoundException("No wallbracket found with this id");
         }
-        WallBracket storedWallBracket = wallBracketRepository.findById(id).orElse(null);
-        storedWallBracket.setId(wallBracketDto.getId());
-        storedWallBracket.setSize(wallBracketDto.getSize());
-        storedWallBracket.setAdjustable(wallBracketDto.getAdjustable());
-        storedWallBracket.setName(wallBracketDto.getName());
-        storedWallBracket.setPrice(wallBracketDto.getPrice());
-        return transferToDto(wallBracketRepository.save(storedWallBracket));
     }
 
-    public WallBracketDto transferToDto(WallBracket wallBracket){
+    public WallBracketDto transferToDto(WallBracket wallBracket) {
         var dto = new WallBracketDto();
 
         dto.setId(wallBracket.getId());
@@ -75,13 +75,13 @@ public class WallBracketService {
         return dto;
     }
 
-    public WallBracket transferToWallBracket(WallBracketDto wallBracketDto){
+    public WallBracket transferToWallBracket(WallBracketInputDto wallBracketInputDto) {
         var wallBracket = new WallBracket();
-        wallBracket.setId(wallBracketDto.getId());
-        wallBracket.setName(wallBracketDto.getName());
-        wallBracket.setSize(wallBracketDto.getSize());
-        wallBracket.setAdjustable(wallBracketDto.getAdjustable());
-        wallBracket.setPrice(wallBracketDto.getPrice());
+
+        wallBracket.setName(wallBracketInputDto.getName());
+        wallBracket.setSize(wallBracketInputDto.getSize());
+        wallBracket.setAdjustable(wallBracketInputDto.getAdjustable());
+        wallBracket.setPrice(wallBracketInputDto.getPrice());
 
         return wallBracket;
     }

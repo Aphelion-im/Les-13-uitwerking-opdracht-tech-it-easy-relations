@@ -4,15 +4,12 @@ import nl.novi.techiteasy1121.dtos.RemoteControllerDto;
 import nl.novi.techiteasy1121.dtos.RemoteControllerInputDto;
 import nl.novi.techiteasy1121.exceptions.RecordNotFoundException;
 import nl.novi.techiteasy1121.models.RemoteController;
-import nl.novi.techiteasy1121.models.Television;
 import nl.novi.techiteasy1121.repositories.RemoteControllerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-// Deze klasse bevat de Service methodes van RemoteControllerController
 
 @Service
 public class RemoteControllerService {
