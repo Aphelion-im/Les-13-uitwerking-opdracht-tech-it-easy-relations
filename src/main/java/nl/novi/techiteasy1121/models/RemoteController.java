@@ -1,11 +1,9 @@
 package nl.novi.techiteasy1121.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "RemoteController")
+@Table(name = "remote_controllers")
 public class RemoteController {
 
     @Id

@@ -2,7 +2,8 @@ package nl.novi.techiteasy1121.models;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "TelevisionWallBracket")
+@Table(name = "televisions_wall_brackets")
 public class TelevisionWallBracket {
 
     // EmbeddedId zorgt dat er geen nieuwe Id wordt aangemaakt,

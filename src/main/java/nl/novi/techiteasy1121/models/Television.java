@@ -8,7 +8,8 @@ import jakarta.persistence.*;
 
 import java.util.Collection;
 
-@Entity
+@Entity(name = "Television")
+@Table(name = "televisions")
 public class Television {
 
     //  Een entiteit moet een primary key bevatten(id)
@@ -37,6 +38,11 @@ public class Television {
     // Dit is de owner kan van de relatie. Er staat een foreign key in de database (kolom remote_controller_id waarschijnlijk)
     // Kolom remote_controller_id staat niet hier tussen de velden van deze klasse en ook niet in de TelevisionDto
     // Idem dito met ci_module_id. Waarschijnlijk maakt SB deze 2 foreign key kolommen automatisch aan met deze annotaties.
+    // Uitleg: Een OneToOne relatie heeft een eigenaar nodig. Maak de Television eigenaar door in RemoteController achter de
+    // @OneToOne mappedBy toe te voegen op deze manier _@OneToOne(mappedBy = "remotecontroller").
+    // Dit zorgt ervoor dat in de Television tabel een kolom wordt toegevoegd met de naam remote_controller_id.
+    // Vergeet niet de getter en setter toe te voegen na het leggen van de relatie in de modellen.
+
     // Een OneToOne relatie tussen Television en RemoteController
     @OneToOne
     RemoteController remoteController;

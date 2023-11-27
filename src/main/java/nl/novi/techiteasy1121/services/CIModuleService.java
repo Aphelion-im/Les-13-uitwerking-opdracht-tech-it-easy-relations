@@ -1,8 +1,10 @@
 package nl.novi.techiteasy1121.services;
 
 import nl.novi.techiteasy1121.dtos.CIModuleDto;
+import nl.novi.techiteasy1121.dtos.CIModuleInputDto;
 import nl.novi.techiteasy1121.exceptions.RecordNotFoundException;
 import nl.novi.techiteasy1121.models.CIModule;
+import nl.novi.techiteasy1121.models.Television;
 import nl.novi.techiteasy1121.repositories.CIModuleRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,9 @@ import java.util.Optional;
 // Deze klasse bevat de service methodes van de CIModuleController
 
 @Service
-public class CIModuleService  {
+public class CIModuleService {
 
-
-    private CIModuleRepository ciModuleRepository;
+    private final CIModuleRepository ciModuleRepository;
 
     public CIModuleService(CIModuleRepository ciModuleRepository) {
         this.ciModuleRepository = ciModuleRepository;
@@ -24,64 +25,59 @@ public class CIModuleService  {
 
     public List<CIModuleDto> getAllCIModules() {
         List<CIModule> ciModules = ciModuleRepository.findAll();
-        List<CIModuleDto> dtos = new ArrayList<>();
+        List<CIModuleDto> dtoList = new ArrayList<>();
         for (CIModule ci : ciModules) {
-            dtos.add(transferToDto(ci));
+            dtoList.add(transferToDto(ci));
         }
-        return dtos;
+        return dtoList;
     }
 
     public CIModuleDto getCIModule(long id) {
         Optional<CIModule> ciModule = ciModuleRepository.findById(id);
-        if(ciModule.isPresent()) {
+        if (ciModule.isPresent()) {
             CIModuleDto ci = transferToDto(ciModule.get());
             return ci;
         } else {
-            throw new RecordNotFoundException("No ci-module found");
+            throw new RecordNotFoundException("No CI-Module found with this id");
         }
     }
 
-    public CIModuleDto addCIModule(CIModuleDto ciModuleDto) {
-        ciModuleRepository.save(transferToCIModule(ciModuleDto));
-        return ciModuleDto;
+    public CIModuleDto addCIModule(CIModuleInputDto ciModuleInputDto) {
+        CIModule ciModule = transferToCIModule(ciModuleInputDto);
+        ciModuleRepository.save(ciModule);
+        return transferToDto(ciModule);
     }
 
     public void deleteCIModule(Long id) {
         ciModuleRepository.deleteById(id);
     }
 
-    // Bevat een error. Met de id
-    public void updateCIModule(Long id, CIModuleDto ciModuleDto) {
-        if(!ciModuleRepository.existsById(id)) {
-            throw new RecordNotFoundException("No ci-module found");
+    public CIModuleDto updateCIModule(Long id, CIModuleInputDto ciModuleInputDto) {
+        if (ciModuleRepository.findById(id).isPresent()) {
+            CIModule ciModule = ciModuleRepository.findById(id).get();
+            CIModule ciModule1 = transferToCIModule(ciModuleInputDto);
+            ciModule1.setId(ciModule.getId());
+            ciModuleRepository.save(ciModule1);
+            return transferToDto(ciModule1);
+        } else {
+            throw new RecordNotFoundException("No CI-Module found with this id");
         }
-        CIModule storedCIModule = ciModuleRepository.findById(id).orElse(null);
-        storedCIModule.setId(ciModuleDto.getId()); // Geeft error 500: identifier of an instance of nl.novi.techiteasy1121.models.CIModule was altered from null to 1001
-        storedCIModule.setType(ciModuleDto.getType());
-        storedCIModule.setName(ciModuleDto.getName());
-        storedCIModule.setPrice(ciModuleDto.getPrice());
-        ciModuleRepository.save(storedCIModule);
     }
 
-    public CIModule transferToCIModule(CIModuleDto dto){
-        CIModule ciModule = new CIModule();
-
-        ciModule.setId(dto.getId());
-        ciModule.setName(dto.getName());
-        ciModule.setType(dto.getType());
-        ciModule.setPrice(dto.getPrice());
-
+    public CIModule transferToCIModule(CIModuleInputDto ciModuleInputDto) {
+        var ciModule = new CIModule();
+        ciModule.setName(ciModuleInputDto.getName());
+        ciModule.setType(ciModuleInputDto.getType());
+        ciModule.setPrice(ciModuleInputDto.getPrice());
         return ciModule;
     }
 
-    public static CIModuleDto transferToDto(CIModule ciModule){
-        var dto = new CIModuleDto();
-
-        dto.id = ciModule.getId();
-        dto.name = ciModule.getName();
-        dto.type = ciModule.getType();
-        dto.price = ciModule.getPrice();
-
-        return dto;
+    public static CIModuleDto transferToDto(CIModule ciModule) {
+        var ciModuleDto = new CIModuleDto();
+        ciModuleDto.id = ciModule.getId();
+        ciModuleDto.name = ciModule.getName();
+        ciModuleDto.type = ciModule.getType();
+        ciModuleDto.price = ciModule.getPrice();
+        return ciModuleDto;
     }
 }

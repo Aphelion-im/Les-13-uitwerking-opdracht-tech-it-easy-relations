@@ -2,13 +2,12 @@ package nl.novi.techiteasy1121.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+
 import java.util.List;
 
-@Entity
+@Entity(name = "WallBracket")
+@Table(name = "wall_brackets")
 public class WallBracket {
 
     @Id
