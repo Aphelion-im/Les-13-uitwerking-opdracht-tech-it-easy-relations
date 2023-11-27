@@ -7,7 +7,6 @@ import nl.novi.techiteasy1121.dtos.TelevisionInputDto;
 import nl.novi.techiteasy1121.dtos.WallBracketDto;
 import nl.novi.techiteasy1121.services.TelevisionService;
 import nl.novi.techiteasy1121.services.TelevisionWallBracketService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,8 +57,8 @@ public class TelevisionController {
     @DeleteMapping("/televisions/{id}")
     public ResponseEntity<Object> deleteTelevision(@PathVariable Long id) {
         televisionService.deleteTelevision(id);
-        // return ResponseEntity.noContent("Deleted").build();
-        return new ResponseEntity<>(id + "Item deleted", HttpStatus.NO_CONTENT); // Beide ResponseEntity vormen geven geen feedback
+        return ResponseEntity.noContent().build();
+        // return new ResponseEntity<>(id + "Item deleted", HttpStatus.NO_CONTENT); // Beide ResponseEntity vormen geven geen feedback
     }
 
     @PutMapping("/televisions/{id}")

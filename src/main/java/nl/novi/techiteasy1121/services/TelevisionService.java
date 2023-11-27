@@ -129,6 +129,7 @@ public class TelevisionService {
 
     public TelevisionDto transferToDto(Television television) {
         TelevisionDto televisionDto = new TelevisionDto();
+
         televisionDto.setId(television.getId());
         televisionDto.setType(television.getType());
         televisionDto.setBrand(television.getBrand());
@@ -138,7 +139,6 @@ public class TelevisionService {
         televisionDto.setRefreshRate(television.getRefreshRate());
         televisionDto.setScreenType(television.getScreenType());
         televisionDto.setScreenQuality(television.getScreenQuality());
-        // dto.setSmartTv(television.getWifi()); - Lijkt foutief
         televisionDto.setSmartTv(television.getSmartTv());
         televisionDto.setWifi(television.getWifi());
         televisionDto.setVoiceControl(television.getVoiceControl());

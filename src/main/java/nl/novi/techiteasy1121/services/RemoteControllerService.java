@@ -1,8 +1,10 @@
 package nl.novi.techiteasy1121.services;
 
 import nl.novi.techiteasy1121.dtos.RemoteControllerDto;
+import nl.novi.techiteasy1121.dtos.RemoteControllerInputDto;
 import nl.novi.techiteasy1121.exceptions.RecordNotFoundException;
 import nl.novi.techiteasy1121.models.RemoteController;
+import nl.novi.techiteasy1121.models.Television;
 import nl.novi.techiteasy1121.repositories.RemoteControllerRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,9 @@ import java.util.Optional;
 // Deze klasse bevat de Service methodes van RemoteControllerController
 
 @Service
-public class RemoteControllerService  {
+public class RemoteControllerService {
 
-    private RemoteControllerRepository remoteControllerRepository;
+    private final RemoteControllerRepository remoteControllerRepository;
 
     public RemoteControllerService(RemoteControllerRepository remoteControllerRepository) {
         this.remoteControllerRepository = remoteControllerRepository;
@@ -32,62 +34,58 @@ public class RemoteControllerService  {
 
     public RemoteControllerDto getRemoteController(long id) {
         Optional<RemoteController> remoteController = remoteControllerRepository.findById(id);
-        if(remoteController.isPresent()) {
+        if (remoteController.isPresent()) {
             return transferToDto(remoteController.get());
         } else {
             throw new RecordNotFoundException("No remotecontroller found");
         }
     }
 
-    public RemoteControllerDto addRemoteController(RemoteControllerDto remoteControllerDto) {
-        RemoteController rc =  transferToRemoteController(remoteControllerDto);
-        remoteControllerRepository.save(rc);
-        return remoteControllerDto;
+    public RemoteControllerDto addRemoteController(RemoteControllerInputDto remoteControllerInputDto) {
+        RemoteController remoteController = transferToRemoteController(remoteControllerInputDto);
+        remoteControllerRepository.save(remoteController);
+        return transferToDto(remoteController);
     }
 
     public void deleteRemoteController(Long id) {
         remoteControllerRepository.deleteById(id);
     }
 
-    public void updateRemoteController(Long id, RemoteControllerDto remoteControllerDto) {
-        if(!remoteControllerRepository.existsById(id)) {
-            throw new RecordNotFoundException("No remotecontroller found");
+    public RemoteControllerDto updateRemoteController(Long id, RemoteControllerInputDto remoteControllerInputDto) {
+        if (remoteControllerRepository.findById(id).isPresent()) {
+            RemoteController remoteController = remoteControllerRepository.findById(id).get();
+            RemoteController remoteController1 = transferToRemoteController(remoteControllerInputDto);
+            remoteController1.setId(remoteController.getId());
+            remoteControllerRepository.save(remoteController1);
+            return transferToDto(remoteController1);
+        } else {
+            throw new RecordNotFoundException("No remotecontroller found with this id");
         }
-        RemoteController storedRemoteController = remoteControllerRepository.findById(id).orElse(null);
-        storedRemoteController.setId(remoteControllerDto.getId());
-        storedRemoteController.setCompatibleWith(remoteControllerDto.getCompatibleWith());
-        storedRemoteController.setBatteryType(remoteControllerDto.getBatteryType());
-        storedRemoteController.setName(remoteControllerDto.getName());
-        storedRemoteController.setPrice(remoteControllerDto.getPrice());
-        storedRemoteController.setBrand(remoteControllerDto.getBrand());
-        storedRemoteController.setOriginalStock(remoteControllerDto.getOriginalStock());
-        remoteControllerRepository.save(storedRemoteController);
     }
 
-    public RemoteControllerDto transferToDto(RemoteController remoteController){
-        var dto = new RemoteControllerDto();
+    public RemoteControllerDto transferToDto(RemoteController remoteController) {
+        RemoteControllerDto remoteControllerDto = new RemoteControllerDto();
 
-        dto.id = remoteController.getId();
-        dto.compatibleWith = remoteController.getCompatibleWith();
-        dto.batteryType = remoteController.getBatteryType();
-        dto.name = remoteController.getName();
-        dto.brand = remoteController.getBrand();
-        dto.price = remoteController.getPrice();
-        dto.originalStock = remoteController.getOriginalStock();
+        remoteControllerDto.setId(remoteController.getId());
+        remoteControllerDto.setCompatibleWith(remoteController.getCompatibleWith());
+        remoteControllerDto.setBatteryType(remoteController.getBatteryType());
+        remoteControllerDto.setName(remoteController.getName());
+        remoteControllerDto.setBrand(remoteController.getBrand()); ;
+        remoteControllerDto.setPrice(remoteController.getPrice());
+        remoteControllerDto.setOriginalStock(remoteController.getOriginalStock());
 
-        return dto;
+        return remoteControllerDto;
     }
 
-    public RemoteController transferToRemoteController(RemoteControllerDto dto){
+    public RemoteController transferToRemoteController(RemoteControllerInputDto remoteControllerInputDto) {
         var remoteController = new RemoteController();
 
-        remoteController.setId(dto.getId());
-        remoteController.setCompatibleWith(dto.getCompatibleWith());
-        remoteController.setBatteryType(dto.getBatteryType());
-        remoteController.setName(dto.getName());
-        remoteController.setBrand(dto.getBrand());
-        remoteController.setPrice(dto.getPrice());
-        remoteController.setOriginalStock(dto.getOriginalStock());
+        remoteController.setCompatibleWith(remoteControllerInputDto.getCompatibleWith());
+        remoteController.setBatteryType(remoteControllerInputDto.getBatteryType());
+        remoteController.setName(remoteControllerInputDto.getName());
+        remoteController.setBrand(remoteControllerInputDto.getBrand());
+        remoteController.setPrice(remoteControllerInputDto.getPrice());
+        remoteController.setOriginalStock(remoteControllerInputDto.getOriginalStock());
 
         return remoteController;
     }

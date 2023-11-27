@@ -73,11 +73,12 @@ public class CIModuleService {
     }
 
     public static CIModuleDto transferToDto(CIModule ciModule) {
-        var ciModuleDto = new CIModuleDto();
-        ciModuleDto.id = ciModule.getId();
-        ciModuleDto.name = ciModule.getName();
-        ciModuleDto.type = ciModule.getType();
-        ciModuleDto.price = ciModule.getPrice();
+        CIModuleDto ciModuleDto = new CIModuleDto();
+
+        ciModuleDto.setId(ciModule.getId());
+        ciModuleDto.setName(ciModule.getName());
+        ciModuleDto.setType(ciModule.getType());
+        ciModuleDto.setPrice(ciModule.getPrice());
         return ciModuleDto;
     }
 }
