@@ -1,9 +1,11 @@
 package nl.novi.techiteasy1121.models;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity(name = "TelevisionWallBracket")
 @Table(name = "televisions_wall_brackets")
+@Data
 public class TelevisionWallBracket {
 
     // EmbeddedId zorgt dat er geen nieuwe Id wordt aangemaakt,
@@ -22,28 +24,4 @@ public class TelevisionWallBracket {
     @MapsId("wallBracketId")
     @JoinColumn(name = "wall_bracket_id")
     private WallBracket wallBracket;
-
-    public TelevisionWallBracketKey getId() {
-        return id;
-    }
-
-    public Television getTelevision() {
-        return television;
-    }
-
-    public WallBracket getWallBracket() {
-        return wallBracket;
-    }
-
-    public void setId(TelevisionWallBracketKey id) {
-        this.id = id;
-    }
-
-    public void setTelevision(Television television) {
-        this.television = television;
-    }
-
-    public void setWallBracket(WallBracket wallBracket) {
-        this.wallBracket = wallBracket;
-    }
 }

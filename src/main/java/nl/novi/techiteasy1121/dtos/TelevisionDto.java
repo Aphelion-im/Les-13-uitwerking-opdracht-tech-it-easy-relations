@@ -1,6 +1,7 @@
 package nl.novi.techiteasy1121.dtos;
 
 import lombok.Data;
+import nl.novi.techiteasy1121.models.TestEnum;
 
 // Geen validatie in de outputDto
 // Wel een id in de outputDto
@@ -8,6 +9,7 @@ import lombok.Data;
 @Data // Lombok: A shortcut for @ToString, @EqualsAndHashCode, @Getter on all fields, @Setter on all non-final fields, and @RequiredArgsConstructor.
 public class TelevisionDto {
     private Long id;
+    private TestEnum testEnum;
     private String type;
     private String brand;
     private String name;

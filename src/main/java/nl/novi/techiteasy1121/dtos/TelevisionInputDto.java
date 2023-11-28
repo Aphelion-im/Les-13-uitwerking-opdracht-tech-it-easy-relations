@@ -2,19 +2,17 @@ package nl.novi.techiteasy1121.dtos;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import nl.novi.techiteasy1121.models.TestEnum;
 
-// InputDto heeft validatie
-// InputDto heeft geen id
-// Dto en InputDto hebben @Data
-// Velden exact gelijk aan Television.java en TelevisionDto, behalve id
 @Data
 public class TelevisionInputDto {
 
+    private TestEnum testEnum;
     @NotNull(message = "Type is required")
     private String type;
     @NotNull(message = "Brand is required")
     private String brand;
-    @Size(max = 100, message = "Name must be between 0-100 characters")
+    @Size(max = 30, message = "Name must be between 0-30 characters")
     private String name;
     @Positive(message = "Price must be higher than zero")
     private Double price;
@@ -34,6 +32,6 @@ public class TelevisionInputDto {
     private Integer sold;
 
     // Geen relatie velden in InputDto
-    // NOVI Constructors, getters en setters uitgeschakeld
+    // NOVI Constructors, getters en setters uitgeschakeld. Alles werkt goed met Lombok.
 }
 

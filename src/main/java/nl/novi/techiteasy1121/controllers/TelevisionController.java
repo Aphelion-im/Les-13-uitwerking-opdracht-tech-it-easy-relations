@@ -1,6 +1,7 @@
 package nl.novi.techiteasy1121.controllers;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import nl.novi.techiteasy1121.dtos.IdInputDto;
 import nl.novi.techiteasy1121.dtos.TelevisionDto;
 import nl.novi.techiteasy1121.dtos.TelevisionInputDto;
@@ -8,28 +9,25 @@ import nl.novi.techiteasy1121.dtos.WallBracketDto;
 import nl.novi.techiteasy1121.services.TelevisionService;
 import nl.novi.techiteasy1121.services.TelevisionWallBracketService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import static nl.novi.techiteasy1121.utilities.Utilities.getErrorString;
+
 @RestController
+@AllArgsConstructor
 public class TelevisionController {
 
     private final TelevisionService televisionService;
 
     private final TelevisionWallBracketService televisionWallBracketService;
 
-    public TelevisionController(TelevisionService televisionService,
-                                TelevisionWallBracketService televisionWallBracketService) {
-        this.televisionService = televisionService;
-        this.televisionWallBracketService = televisionWallBracketService;
-    }
-
-    // @RequestParam: Postman Query Params: localhost:8080/televisions?brand=Philips
-    // @PathVariabele: /television/{pathVariable}
-    // @RequestBody: Body > Raw > JSON
     @GetMapping("/televisions")
     public ResponseEntity<List<TelevisionDto>> getAllTelevisions(@RequestParam(value = "brand", required = false) Optional<String> brand) {
         List<TelevisionDto> dtos;
@@ -48,9 +46,16 @@ public class TelevisionController {
     }
 
     @PostMapping("/televisions")
-    public ResponseEntity<TelevisionDto> addTelevision(@Valid @RequestBody TelevisionInputDto televisionInputDto) {
-        TelevisionDto televisionDto = televisionService.addTelevision(televisionInputDto);
-        return ResponseEntity.created(null).body(televisionDto);
+    public ResponseEntity<Object> addTelevision(@Valid @RequestBody TelevisionInputDto televisionInputDto, BindingResult br) {
+        if (br.hasFieldErrors()) {
+            String errorString = getErrorString(br);
+            return ResponseEntity.badRequest().body(errorString);
+        } else {
+            Long id = televisionService.addTelevision(televisionInputDto).getId();
+            URI uri = URI.create(ServletUriComponentsBuilder
+                    .fromCurrentRequest().path("/" + id).toUriString());
+            return ResponseEntity.created(uri).body(televisionInputDto);
+        }
     }
 
     @DeleteMapping("/televisions/{id}")

@@ -9,7 +9,7 @@ public class WallBracketInputDto {
 
     private String size;
     private Boolean adjustable;
-    @Size(max = 100, message = "Name must be between 0-100 characters")
+    @Size(max = 30, message = "Name must be between 0-30 characters")
     private String name;
     @Positive(message = "Price must be higher than zero")
     private Double price;

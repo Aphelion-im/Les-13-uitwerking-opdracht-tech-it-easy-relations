@@ -1,5 +1,7 @@
 package nl.novi.techiteasy1121.services;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import nl.novi.techiteasy1121.dtos.TelevisionDto;
 import nl.novi.techiteasy1121.dtos.WallBracketDto;
 import nl.novi.techiteasy1121.exceptions.RecordNotFoundException;
@@ -21,19 +23,14 @@ import java.util.Set;
 // Deze klasse wijkt af van de andere service-klassen, omdat deze in 3 verschillende controllers wordt ge-autowired.
 // Deze class heeft geen Dto
 @Service
-public class TelevisionWallBracketService{
+@AllArgsConstructor
+public class TelevisionWallBracketService {
 
     private final TelevisionRepository televisionRepository;
 
     private final WallBracketRepository wallBracketRepository;
 
     private final TelevisionWallBracketRepository televisionWallBracketRepository;
-
-    public TelevisionWallBracketService(TelevisionRepository televisionRepository, WallBracketRepository wallBracketRepository, TelevisionWallBracketRepository televisionWallBracketRepository) {
-        this.televisionRepository = televisionRepository;
-        this.wallBracketRepository = wallBracketRepository;
-        this.televisionWallBracketRepository = televisionWallBracketRepository;
-    }
 
     public Collection<TelevisionDto> getTelevisionsByWallBracketId(Long wallBracketId) {
         Collection<TelevisionDto> televisionDtoCollection = new HashSet<>();
@@ -44,6 +41,7 @@ public class TelevisionWallBracketService{
             TelevisionDto televisionDto = new TelevisionDto();
 
             televisionDto.setId(television.getId());
+            televisionDto.setTestEnum(television.getTestEnum());
             televisionDto.setType(television.getType());
             televisionDto.setBrand(television.getBrand());
             televisionDto.setName(television.getName());
@@ -88,15 +86,36 @@ public class TelevisionWallBracketService{
 
     public TelevisionWallBracketKey addTelevisionWallBracket(Long televisionId, Long wallBracketId) {
         var televisionWallBracket = new TelevisionWallBracket();
-        if (!televisionRepository.existsById(televisionId)) {throw new RecordNotFoundException();}
+
+        if (!televisionRepository.existsById(televisionId)) {
+            throw new RecordNotFoundException();
+        }
+
         Television television = televisionRepository.findById(televisionId).orElse(null);
-        if (!wallBracketRepository.existsById(wallBracketId)) {throw new RecordNotFoundException();}
+
+        if (!wallBracketRepository.existsById(wallBracketId)) {
+            throw new RecordNotFoundException();
+        }
+
         WallBracket wallBracket = wallBracketRepository.findById(wallBracketId).orElse(null);
         televisionWallBracket.setTelevision(television);
         televisionWallBracket.setWallBracket(wallBracket);
+
         TelevisionWallBracketKey id = new TelevisionWallBracketKey(televisionId, wallBracketId);
         televisionWallBracket.setId(id);
         televisionWallBracketRepository.save(televisionWallBracket);
         return id;
     }
+
+    // Of Optionals?
+    public void deleteTelevisionWallBracket(Long televisionId, Long wallBracketId) {
+        TelevisionWallBracketKey id = new TelevisionWallBracketKey(televisionId, wallBracketId);
+        if (!televisionWallBracketRepository.existsById(id)) {
+            throw new RecordNotFoundException("Combination Television #id: " + televisionId + " and " + "Wallbracket #id: " + wallBracketId + " not found.");
+        } else {
+            televisionWallBracketRepository.deleteById(id);
+        }
+    }
+
+
 }

@@ -1,22 +1,26 @@
 package nl.novi.techiteasy1121.controllers;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import nl.novi.techiteasy1121.dtos.CIModuleDto;
 import nl.novi.techiteasy1121.dtos.CIModuleInputDto;
 import nl.novi.techiteasy1121.services.CIModuleService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
-// Dit is de Controller klasse van de CIModule entiteit en heeft vergelijkbare methodes als de TelevisionController
-@RestController
-public class CIModuleController {
-    private final CIModuleService ciModuleService;
+import static nl.novi.techiteasy1121.utilities.Utilities.getErrorString;
 
-    public CIModuleController(CIModuleService ciModuleService) {
-        this.ciModuleService = ciModuleService;
-    }
+
+@RestController
+@AllArgsConstructor
+public class CIModuleController {
+
+    private final CIModuleService ciModuleService;
 
     @GetMapping("/cimodules")
     public ResponseEntity<List<CIModuleDto>> getAllCIModules() {
@@ -30,11 +34,17 @@ public class CIModuleController {
         return ResponseEntity.ok(ciModuleDto);
     }
 
-    // Geen URI uri present/ Location van de resource URI.
     @PostMapping("/cimodules")
-    public ResponseEntity<CIModuleDto> addCIModule(@Valid @RequestBody CIModuleInputDto ciModuleInputDto) {
-        CIModuleDto ciModuleDto = ciModuleService.addCIModule(ciModuleInputDto);
-        return ResponseEntity.created(null).body(ciModuleDto);
+    public ResponseEntity<Object> addCIModule(@Valid @RequestBody CIModuleInputDto ciModuleInputDto, BindingResult br) {
+        if (br.hasFieldErrors()) {
+            String errorString = getErrorString(br);
+            return ResponseEntity.badRequest().body(errorString);
+        } else {
+            Long id = ciModuleService.addCIModule(ciModuleInputDto).getId();
+            URI uri = URI.create(ServletUriComponentsBuilder
+                    .fromCurrentRequest().path("/" + id).toUriString());
+            return ResponseEntity.created(uri).body(ciModuleInputDto);
+        }
     }
 
     @DeleteMapping("/cimodules/{id}")

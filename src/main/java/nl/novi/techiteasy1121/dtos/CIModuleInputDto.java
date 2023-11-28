@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class CIModuleInputDto {
 
-    @Size(max = 100, message = "Name must be between 0-100 characters")
+    @Size(max = 30, message = "Name must be between 0-30 characters")
     public String name;
     @NotNull(message = "Type is required")
     public String type;

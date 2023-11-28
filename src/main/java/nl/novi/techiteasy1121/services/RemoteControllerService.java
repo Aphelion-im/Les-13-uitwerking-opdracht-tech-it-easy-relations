@@ -1,5 +1,6 @@
 package nl.novi.techiteasy1121.services;
 
+import lombok.AllArgsConstructor;
 import nl.novi.techiteasy1121.dtos.RemoteControllerDto;
 import nl.novi.techiteasy1121.dtos.RemoteControllerInputDto;
 import nl.novi.techiteasy1121.exceptions.RecordNotFoundException;
@@ -12,13 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class RemoteControllerService {
 
     private final RemoteControllerRepository remoteControllerRepository;
-
-    public RemoteControllerService(RemoteControllerRepository remoteControllerRepository) {
-        this.remoteControllerRepository = remoteControllerRepository;
-    }
 
     public List<RemoteControllerDto> getAllRemoteControllers() {
         List<RemoteControllerDto> dtos = new ArrayList<>();

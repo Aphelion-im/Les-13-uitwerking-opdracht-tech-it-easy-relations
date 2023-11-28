@@ -1,5 +1,6 @@
 package nl.novi.techiteasy1121.services;
 
+import lombok.AllArgsConstructor;
 import nl.novi.techiteasy1121.dtos.CIModuleDto;
 import nl.novi.techiteasy1121.dtos.CIModuleInputDto;
 import nl.novi.techiteasy1121.exceptions.RecordNotFoundException;
@@ -15,13 +16,10 @@ import java.util.Optional;
 // Deze klasse bevat de service methodes van de CIModuleController
 
 @Service
+@AllArgsConstructor
 public class CIModuleService {
 
     private final CIModuleRepository ciModuleRepository;
-
-    public CIModuleService(CIModuleRepository ciModuleRepository) {
-        this.ciModuleRepository = ciModuleRepository;
-    }
 
     public List<CIModuleDto> getAllCIModules() {
         List<CIModule> ciModules = ciModuleRepository.findAll();

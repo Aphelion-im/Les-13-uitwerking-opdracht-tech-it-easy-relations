@@ -1,5 +1,6 @@
 package nl.novi.techiteasy1121.services;
 
+import lombok.AllArgsConstructor;
 import nl.novi.techiteasy1121.dtos.TelevisionDto;
 import nl.novi.techiteasy1121.dtos.TelevisionInputDto;
 import nl.novi.techiteasy1121.exceptions.RecordNotFoundException;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class TelevisionService {
 
     private final TelevisionRepository televisionRepository;
@@ -25,19 +27,6 @@ public class TelevisionService {
     private final CIModuleRepository ciModuleRepository;
 
     private final CIModuleService ciModuleService;
-
-    public TelevisionService(TelevisionRepository televisionRepository,
-                             RemoteControllerRepository remoteControllerRepository,
-                             RemoteControllerService remoteControllerService,
-                             CIModuleRepository ciModuleRepository,
-                             CIModuleService ciModuleService
-    ) {
-        this.televisionRepository = televisionRepository;
-        this.remoteControllerRepository = remoteControllerRepository;
-        this.remoteControllerService = remoteControllerService;
-        this.ciModuleRepository = ciModuleRepository;
-        this.ciModuleService = ciModuleService;
-    }
 
     public List<TelevisionDto> getAllTelevisions() {
         List<Television> tvList = televisionRepository.findAll();
@@ -54,7 +43,7 @@ public class TelevisionService {
         for (Television tv : televisions) {
             TelevisionDto dto = transferToDto(tv);
             if (tv.getCiModule() != null) {
-                dto.setCiModuleDto(ciModuleService.transferToDto(tv.getCiModule()));
+                dto.setCiModuleDto(CIModuleService.transferToDto(tv.getCiModule()));
             }
             if (tv.getRemoteController() != null) {
                 dto.setRemoteControllerDto(remoteControllerService.transferToDto(tv.getRemoteController()));
@@ -92,7 +81,6 @@ public class TelevisionService {
         televisionRepository.deleteById(id);
     }
 
-
     public TelevisionDto updateTelevision(Long id, TelevisionInputDto inputDto) {
         if (televisionRepository.findById(id).isPresent()) {
             Television tv = televisionRepository.findById(id).get();
@@ -107,6 +95,7 @@ public class TelevisionService {
 
     public Television transferToTelevision(TelevisionInputDto televisionInputDto) {
         var television = new Television();
+        television.setTestEnum(televisionInputDto.getTestEnum());
         television.setType(televisionInputDto.getType());
         television.setBrand(televisionInputDto.getBrand());
         television.setName(televisionInputDto.getName());
@@ -131,6 +120,7 @@ public class TelevisionService {
         TelevisionDto televisionDto = new TelevisionDto();
 
         televisionDto.setId(television.getId());
+        televisionDto.setTestEnum(television.getTestEnum());
         televisionDto.setType(television.getType());
         televisionDto.setBrand(television.getBrand());
         televisionDto.setName(television.getName());

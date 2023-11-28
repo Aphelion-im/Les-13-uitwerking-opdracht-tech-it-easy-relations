@@ -1,29 +1,29 @@
 package nl.novi.techiteasy1121.controllers;
 
-
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import nl.novi.techiteasy1121.dtos.TelevisionDto;
 import nl.novi.techiteasy1121.dtos.WallBracketDto;
 import nl.novi.techiteasy1121.dtos.WallBracketInputDto;
 import nl.novi.techiteasy1121.services.TelevisionWallBracketService;
 import nl.novi.techiteasy1121.services.WallBracketService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 
+import static nl.novi.techiteasy1121.utilities.Utilities.getErrorString;
+
 @RestController
+@AllArgsConstructor
 public class WallBracketController {
 
     private final WallBracketService wallBracketService;
     private final TelevisionWallBracketService televisionWallBracketService;
-
-    public WallBracketController(WallBracketService wallBracketService,
-                                 TelevisionWallBracketService televisionWallBracketService) {
-        this.wallBracketService = wallBracketService;
-        this.televisionWallBracketService = televisionWallBracketService;
-    }
 
     @GetMapping("/wallbrackets")
     public ResponseEntity<List<WallBracketDto>> getAllWallBrackets() {
@@ -42,21 +42,28 @@ public class WallBracketController {
     }
 
     @PostMapping("/wallbrackets")
-    public ResponseEntity<WallBracketDto> addWallBracket(@Valid @RequestBody WallBracketInputDto wallBracketInputDto) {
-        WallBracketDto wallBracket = wallBracketService.addWallbracket(wallBracketInputDto);
-        return ResponseEntity.created(null).body(wallBracket);
+    public ResponseEntity<Object> addWallBracket(@Valid @RequestBody WallBracketInputDto wallBracketInputDto, BindingResult br) {
+        if (br.hasFieldErrors()) {
+            String errorString = getErrorString(br);
+            return ResponseEntity.badRequest().body(errorString);
+        } else {
+            Long id = wallBracketService.addWallbracket(wallBracketInputDto).getId();
+            URI uri = URI.create(ServletUriComponentsBuilder
+                    .fromCurrentRequest().path("/" + id).toUriString());
+            return ResponseEntity.created(uri).body(wallBracketInputDto);
+        }
     }
 
     // Kan id 1001-1005 niet verwijderen i.v.m. constraints/relaties
+    // Geen waarschuwing als je iets wilt verwijderen wanneer het id niet bestaat
     @DeleteMapping("/wallbrackets/{id}")
     public ResponseEntity<Object> deleteWallBracket(@PathVariable("id") Long id) {
         wallBracketService.deleteWallBracket(id);
         return ResponseEntity.noContent().build();
     }
 
-    // Foutief:
     @PutMapping("/wallbrackets/{id}")
-    public ResponseEntity<Object> updateWallBracket(@PathVariable("id") Long id, @Valid @RequestBody WallBracketInputDto wallBracketInputDto) {
+    public ResponseEntity<WallBracketDto> updateWallBracket(@PathVariable("id") Long id, @Valid @RequestBody WallBracketInputDto wallBracketInputDto) {
         WallBracketDto wallBracketDto = wallBracketService.updateWallBracket(id, wallBracketInputDto);
         return ResponseEntity.ok().body(wallBracketDto);
     }

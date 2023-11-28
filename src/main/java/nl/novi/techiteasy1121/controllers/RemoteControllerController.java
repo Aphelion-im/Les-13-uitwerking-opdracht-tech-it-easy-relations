@@ -1,23 +1,25 @@
 package nl.novi.techiteasy1121.controllers;
 
 import jakarta.validation.Valid;
-import nl.novi.techiteasy1121.dtos.CIModuleDto;
-import nl.novi.techiteasy1121.dtos.CIModuleInputDto;
+import lombok.AllArgsConstructor;
 import nl.novi.techiteasy1121.dtos.RemoteControllerDto;
 import nl.novi.techiteasy1121.dtos.RemoteControllerInputDto;
 import nl.novi.techiteasy1121.services.RemoteControllerService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
-@RestController
-public class RemoteControllerController {
-    private final RemoteControllerService remoteControllerService;
+import static nl.novi.techiteasy1121.utilities.Utilities.getErrorString;
 
-    public RemoteControllerController(RemoteControllerService remoteControllerService) {
-        this.remoteControllerService = remoteControllerService;
-    }
+@RestController
+@AllArgsConstructor
+public class RemoteControllerController {
+
+    private final RemoteControllerService remoteControllerService;
 
     @GetMapping("/remotecontrollers")
     public ResponseEntity<List<RemoteControllerDto>> getAllRemotecontrollers() {
@@ -32,9 +34,16 @@ public class RemoteControllerController {
     }
 
     @PostMapping("/remotecontrollers")
-    public ResponseEntity<RemoteControllerDto> addRemoteController(@Valid @RequestBody RemoteControllerInputDto remoteControllerInputDto) {
-        RemoteControllerDto remoteControllerDto1 = remoteControllerService.addRemoteController(remoteControllerInputDto);
-        return ResponseEntity.created(null).body(remoteControllerDto1);
+    public ResponseEntity<Object> addRemoteController(@Valid @RequestBody RemoteControllerInputDto remoteControllerInputDto, BindingResult br) {
+        if (br.hasFieldErrors()) {
+            String errorString = getErrorString(br);
+            return ResponseEntity.badRequest().body(errorString);
+        } else {
+            Long id = remoteControllerService.addRemoteController(remoteControllerInputDto).getId();
+            URI uri = URI.create(ServletUriComponentsBuilder
+                    .fromCurrentRequest().path("/" + id).toUriString());
+            return ResponseEntity.created(uri).body(remoteControllerInputDto);
+        }
     }
 
     @DeleteMapping("/remotecontrollers/{id}")
@@ -44,10 +53,8 @@ public class RemoteControllerController {
     }
 
     @PutMapping("/remotecontrollers/{id}")
-    public ResponseEntity<Object> updateRemoteController2(@PathVariable("id") Long id, @Valid @RequestBody RemoteControllerInputDto remoteControllerInputDto) {
+    public ResponseEntity<Object> updateRemoteController(@PathVariable("id") Long id, @Valid @RequestBody RemoteControllerInputDto remoteControllerInputDto) {
         RemoteControllerDto remoteControllerDto = remoteControllerService.updateRemoteController(id, remoteControllerInputDto);
         return ResponseEntity.ok().body(remoteControllerDto);
     }
-
-
 }

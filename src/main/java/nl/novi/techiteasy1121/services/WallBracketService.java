@@ -1,5 +1,6 @@
 package nl.novi.techiteasy1121.services;
 
+import lombok.AllArgsConstructor;
 import nl.novi.techiteasy1121.dtos.WallBracketDto;
 import nl.novi.techiteasy1121.dtos.WallBracketInputDto;
 import nl.novi.techiteasy1121.exceptions.RecordNotFoundException;
@@ -11,23 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
+@AllArgsConstructor
 public class WallBracketService {
 
     private final WallBracketRepository wallBracketRepository;
 
-    public WallBracketService(WallBracketRepository wallBracketRepository) {
-        this.wallBracketRepository = wallBracketRepository;
-    }
-
     public List<WallBracketDto> getAllWallBrackets() {
         List<WallBracket> wallBracketList = wallBracketRepository.findAll();
-        List<WallBracketDto> dtos = new ArrayList<>();
+        List<WallBracketDto> wallBracketDtoList = new ArrayList<>();
         for (WallBracket wb : wallBracketList) {
-            dtos.add(transferToDto(wb));
+            wallBracketDtoList.add(transferToDto(wb));
         }
-        return dtos;
+        return wallBracketDtoList;
     }
 
     public WallBracketDto getWallBracket(long id) {
