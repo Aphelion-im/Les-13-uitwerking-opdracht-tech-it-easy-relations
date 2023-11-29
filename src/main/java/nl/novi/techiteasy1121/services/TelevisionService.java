@@ -3,16 +3,18 @@ package nl.novi.techiteasy1121.services;
 import lombok.AllArgsConstructor;
 import nl.novi.techiteasy1121.dtos.TelevisionDto;
 import nl.novi.techiteasy1121.dtos.TelevisionInputDto;
+import nl.novi.techiteasy1121.exceptions.BadRequestException;
 import nl.novi.techiteasy1121.exceptions.RecordNotFoundException;
+import nl.novi.techiteasy1121.models.CIModule;
 import nl.novi.techiteasy1121.models.Television;
 import nl.novi.techiteasy1121.repositories.CIModuleRepository;
 import nl.novi.techiteasy1121.repositories.RemoteControllerRepository;
 import nl.novi.techiteasy1121.repositories.TelevisionRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -38,36 +40,33 @@ public class TelevisionService {
         return transferTvListToDtoList(tvList);
     }
 
-    public List<TelevisionDto> transferTvListToDtoList(List<Television> televisions) {
-        List<TelevisionDto> tvDtoList = new ArrayList<>();
-        for (Television tv : televisions) {
-            TelevisionDto dto = transferToDto(tv);
-            if (tv.getCiModule() != null) {
-                dto.setCiModuleDto(CIModuleService.transferToDto(tv.getCiModule()));
-            }
-            if (tv.getRemoteController() != null) {
-                dto.setRemoteControllerDto(remoteControllerService.transferToDto(tv.getRemoteController()));
-            }
-            tvDtoList.add(dto);
+    // https://www.youtube.com/watch?v=vKVzRbsMnTQ (Coding with John, Optionals)
+    public TelevisionDto getTelevisionById(Long id) {
+        Optional<Television> optionalTelevision = televisionRepository.findById(id);
+        if (optionalTelevision.isEmpty()) {
+            throw new RecordNotFoundException("No television found with id: " + id);
+        } else {
+            Television television1 = optionalTelevision.get();
+            return transferToDto(television1);
         }
-        return tvDtoList;
     }
 
-    public TelevisionDto getTelevisionById(Long id) {
-        if (televisionRepository.findById(id).isPresent()) {
-            Television tv = televisionRepository.findById(id).get();
-            TelevisionDto dto = transferToDto(tv);
-            if (tv.getCiModule() != null) {
-                dto.setCiModuleDto(ciModuleService.transferToDto(tv.getCiModule()));
-            }
-            if (tv.getRemoteController() != null) {
-                dto.setRemoteControllerDto(remoteControllerService.transferToDto(tv.getRemoteController()));
-            }
-            return transferToDto(tv);
-        } else {
-            throw new RecordNotFoundException("geen televisie gevonden");
-        }
-    }
+//    public TelevisionDto getTelevisionById(Long id) {
+//        if (televisionRepository.findById(id).isPresent()) {
+//            Television tv = televisionRepository.findById(id).get();
+//            TelevisionDto dto = transferToDto(tv);
+//            if (tv.getCiModule() != null) {
+//                dto.setCiModuleDto(CIModuleService.transferToDto(tv.getCiModule()));
+//            }
+//            if (tv.getRemoteController() != null) {
+//                dto.setRemoteControllerDto(remoteControllerService.transferToDto(tv.getRemoteController()));
+//            }
+//            return transferToDto(tv);
+//        } else {
+//            throw new RecordNotFoundException("No television found with this id: " + id);
+//        }
+//    }
+
 
     public TelevisionDto addTelevision(TelevisionInputDto televisionInputDto) {
         Television tv = transferToTelevision(televisionInputDto);
@@ -75,10 +74,23 @@ public class TelevisionService {
         return transferToDto(tv);
     }
 
-
     // Id 1001 - 1005 kun je niet verwijderen omdat ze een koppeling en een entry hebben met/in andere tabellen.
-    public void deleteTelevision(@RequestBody Long id) {
-        televisionRepository.deleteById(id);
+    // Dit opgelost door:
+    // CascadeType.REMOVE is a way to delete a child entity or entities whenever the deletion of its parent happens.
+
+    // Verwijder een Television met een bepaalde id en alle bijhorende wallbrackets. Niet de wallbrackets zelf.
+    public void deleteTelevision(Long id) {
+        Optional<Television> optionalTelevision = televisionRepository.findById(id);
+        if (optionalTelevision.isEmpty()) {
+            throw new RecordNotFoundException("No television found with id: " + id);
+        } else {
+            try {
+                Television television = optionalTelevision.get();
+                televisionRepository.delete(television);
+            } catch (Exception e) {
+                throw new BadRequestException("Unable to delete item. This item is still connected to wallbrackets, remote controllers and other parts. First delete these items, before deleting this item.");
+            }
+        }
     }
 
     public TelevisionDto updateTelevision(Long id, TelevisionInputDto inputDto) {
@@ -147,6 +159,22 @@ public class TelevisionService {
         return televisionDto;
     }
 
+    public List<TelevisionDto> transferTvListToDtoList(List<Television> televisions) {
+        List<TelevisionDto> tvDtoList = new ArrayList<>();
+        for (Television tv : televisions) {
+            TelevisionDto dto = transferToDto(tv);
+            if (tv.getCiModule() != null) {
+                dto.setCiModuleDto(CIModuleService.transferToDto(tv.getCiModule()));
+            }
+            if (tv.getRemoteController() != null) {
+                dto.setRemoteControllerDto(remoteControllerService.transferToDto(tv.getRemoteController()));
+            }
+            tvDtoList.add(dto);
+        }
+        return tvDtoList;
+    }
+
+    // optional zonder Optional?. Zie refactor hieronder met Optionals: assignCIModuleToTelevision
     public void assignRemoteControllerToTelevision(Long id, Long remoteControllerId) {
         var optionalTelevision = televisionRepository.findById(id);
         var optionalRemoteController = remoteControllerRepository.findById(remoteControllerId);
@@ -160,16 +188,39 @@ public class TelevisionService {
         }
     }
 
+    // optional zonder Optional?
+//    public void assignCIModuleToTelevision(Long id, Long ciModuleId) {
+//        var optionalTelevision = televisionRepository.findById(id);
+//        var optionalCIModule = ciModuleRepository.findById(ciModuleId);
+//
+//        if (optionalTelevision.isPresent() && optionalCIModule.isPresent()) {
+//            var television = optionalTelevision.get();
+//            var ciModule = optionalCIModule.get();
+//            television.setCiModule(ciModule);
+//            televisionRepository.save(television);
+//        } else {
+//            throw new RecordNotFoundException("Items not found!");
+//        }
+//    }
+
+    // Refactor met echte Optional
     public void assignCIModuleToTelevision(Long id, Long ciModuleId) {
-        var optionalTelevision = televisionRepository.findById(id);
-        var optionalCIModule = ciModuleRepository.findById(ciModuleId);
+        Optional<Television> optionalTelevision = televisionRepository.findById(id);
+        Optional<CIModule> optionalCIModule = ciModuleRepository.findById(ciModuleId);
+
         if (optionalTelevision.isPresent() && optionalCIModule.isPresent()) {
             var television = optionalTelevision.get();
             var ciModule = optionalCIModule.get();
             television.setCiModule(ciModule);
             televisionRepository.save(television);
-        } else {
-            throw new RecordNotFoundException();
+        }
+        if (optionalTelevision.isEmpty()) {
+            throw new RecordNotFoundException("Television with id: " + id + " not found!");
+        }
+        if (optionalCIModule.isEmpty()) {
+            throw new RecordNotFoundException("CIModule with id: " + ciModuleId + " not found!");
         }
     }
+
+
 }

@@ -1,7 +1,6 @@
 package nl.novi.techiteasy1121.services;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import nl.novi.techiteasy1121.dtos.TelevisionDto;
 import nl.novi.techiteasy1121.dtos.WallBracketDto;
 import nl.novi.techiteasy1121.exceptions.RecordNotFoundException;
@@ -32,6 +31,7 @@ public class TelevisionWallBracketService {
 
     private final TelevisionWallBracketRepository televisionWallBracketRepository;
 
+    // Ontdubbelen?
     public Collection<TelevisionDto> getTelevisionsByWallBracketId(Long wallBracketId) {
         Collection<TelevisionDto> televisionDtoCollection = new HashSet<>();
 
@@ -84,7 +84,7 @@ public class TelevisionWallBracketService {
         return wallBracketDtoSet;
     }
 
-    public TelevisionWallBracketKey addTelevisionWallBracket(Long televisionId, Long wallBracketId) {
+    public void addTelevisionWallBracket(Long televisionId, Long wallBracketId) {
         var televisionWallBracket = new TelevisionWallBracket();
 
         if (!televisionRepository.existsById(televisionId)) {
@@ -104,7 +104,6 @@ public class TelevisionWallBracketService {
         TelevisionWallBracketKey id = new TelevisionWallBracketKey(televisionId, wallBracketId);
         televisionWallBracket.setId(id);
         televisionWallBracketRepository.save(televisionWallBracket);
-        return id;
     }
 
     // Of Optionals?

@@ -62,6 +62,7 @@ public class WallBracketController {
         return ResponseEntity.noContent().build();
     }
 
+    // Hier nog een BindingResult:
     @PutMapping("/wallbrackets/{id}")
     public ResponseEntity<WallBracketDto> updateWallBracket(@PathVariable("id") Long id, @Valid @RequestBody WallBracketInputDto wallBracketInputDto) {
         WallBracketDto wallBracketDto = wallBracketService.updateWallBracket(id, wallBracketInputDto);

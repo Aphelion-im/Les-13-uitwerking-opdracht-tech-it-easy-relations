@@ -1,12 +1,10 @@
 package nl.novi.techiteasy1121.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-
-import jakarta.persistence.*;
 
 import java.util.Collection;
 
@@ -37,15 +35,24 @@ public class Television {
     private Integer originalStock;
     private Integer sold;
 
-    // Dit is de owner kan van de relatie. Er staat een foreign key in de database (kolom remote_controller_id waarschijnlijk)
-    // Kolom remote_controller_id staat niet hier tussen de velden van deze klasse en ook niet in de TelevisionDto
-    // Idem dito met ci_module_id. Waarschijnlijk maakt SB deze 2 foreign key kolommen automatisch aan met deze annotaties.
-    // Uitleg: Een OneToOne relatie heeft een eigenaar nodig. Maak de Television eigenaar door in RemoteController achter de
-    // @OneToOne mappedBy toe te voegen op deze manier _@OneToOne(mappedBy = "remotecontroller").
-    // Dit zorgt ervoor dat in de Television tabel een kolom wordt toegevoegd met de naam remote_controller_id.
-    // Vergeet niet de getter en setter toe te voegen na het leggen van de relatie in de modellen.
+     /*
+     Uitleg:
+     Een OneToOne relatie heeft een eigenaar nodig. Maak de Television eigenaar door in RemoteController achter de
+     @OneToOne mappedBy toe te voegen op deze manier _@OneToOne(mappedBy = "remotecontroller").
+     Dit zorgt ervoor dat in de Television tabel een kolom wordt toegevoegd met de naam remote_controller_id.
+     Vergeet niet de getter en setter toe te voegen na het leggen van de relatie in de modellen.
 
-    // Een OneToOne relatie tussen Television en RemoteController
+     Relatie velden @OneToOne:
+     Television.java:  @OneToOne RemoteController remoteController;
+     RemoteController.java:  @OneToOne(mappedBy = "remoteController") Television television;
+     RemoteControllerDto.java: Geen verwijzingen
+     RemoteControllerInputDto.java: Geen verwijzingen
+     TelevisionDto: RemoteControllerDto remoteControllerDto;
+     TelevisionInputDto: Geen verwijzingen
+    */
+
+
+    // Een OneToOne relatie tussen Television en RemoteController, zoals staat aangegeven in het klassendiagram
     @OneToOne
     RemoteController remoteController;
 
@@ -56,8 +63,11 @@ public class Television {
     private CIModule ciModule;
 
     // Dit is de target kant van de relatie. Er staat niks in de database
-    @OneToMany(mappedBy = "television") // Waarom staat er OneToMany als het een ManyToMany is?
+    // @OneToMany(mappedBy = "television") // Waarom staat er OneToMany als het een ManyToMany is? -- Origineel
+    @OneToMany(mappedBy = "television", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    // Waarom staat er OneToMany als het een ManyToMany is?
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JsonIgnore
-    Collection<TelevisionWallBracket> televisionWallBrackets;
+    // When we set this option to FALSE, we enable the eager fetching approach. . The main idea of using the @LazyCollection is to control whether the fetching of data should be using the lazy approach or the eager one. https://www.baeldung.com/hibernate-lazycollection
+    @JsonIgnore // @JsonIgnore - Bij stack overflow foutmeldingen door een oneindige loop/recursie. Les 13 (2023/02): Video@1h18m
+            Collection<TelevisionWallBracket> televisionWallBrackets;
 }

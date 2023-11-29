@@ -33,7 +33,7 @@ public class WallBracketService {
             WallBracketDto dto = transferToDto(wallBracket.get());
             return dto;
         } else {
-            throw new RecordNotFoundException("No wallbracket found with this id");
+            throw new RecordNotFoundException("No wallbracket found with id: " + id);
         }
     }
 
@@ -56,7 +56,7 @@ public class WallBracketService {
             wallBracketRepository.save(wallBracket1);
             return transferToDto(wallBracket1);
         } else {
-            throw new RecordNotFoundException("No wallbracket found with this id");
+            throw new RecordNotFoundException("No wallbracket found with id: " + id);
         }
     }
 

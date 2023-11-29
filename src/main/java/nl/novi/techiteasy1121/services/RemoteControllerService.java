@@ -32,7 +32,7 @@ public class RemoteControllerService {
         if (remoteController.isPresent()) {
             return transferToDto(remoteController.get());
         } else {
-            throw new RecordNotFoundException("No remotecontroller found");
+            throw new RecordNotFoundException("No remotecontroller found with id: " + id);
         }
     }
 
@@ -54,10 +54,11 @@ public class RemoteControllerService {
             remoteControllerRepository.save(remoteController1);
             return transferToDto(remoteController1);
         } else {
-            throw new RecordNotFoundException("No remotecontroller found with this id");
+            throw new RecordNotFoundException("No remotecontroller found with id: " + id);
         }
     }
 
+    // Ontdubbelen?
     public RemoteControllerDto transferToDto(RemoteController remoteController) {
         RemoteControllerDto remoteControllerDto = new RemoteControllerDto();
 
@@ -65,13 +66,14 @@ public class RemoteControllerService {
         remoteControllerDto.setCompatibleWith(remoteController.getCompatibleWith());
         remoteControllerDto.setBatteryType(remoteController.getBatteryType());
         remoteControllerDto.setName(remoteController.getName());
-        remoteControllerDto.setBrand(remoteController.getBrand()); ;
+        remoteControllerDto.setBrand(remoteController.getBrand());
         remoteControllerDto.setPrice(remoteController.getPrice());
         remoteControllerDto.setOriginalStock(remoteController.getOriginalStock());
 
         return remoteControllerDto;
     }
 
+    // Ontdubbelen?
     public RemoteController transferToRemoteController(RemoteControllerInputDto remoteControllerInputDto) {
         var remoteController = new RemoteController();
 

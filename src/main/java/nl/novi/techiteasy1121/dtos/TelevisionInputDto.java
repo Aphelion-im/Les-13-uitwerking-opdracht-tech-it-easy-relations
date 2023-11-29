@@ -30,8 +30,5 @@ public class TelevisionInputDto {
     @PositiveOrZero(message = "Televisions cannot have negative stock")
     private Integer originalStock;
     private Integer sold;
-
-    // Geen relatie velden in InputDto
-    // NOVI Constructors, getters en setters uitgeschakeld. Alles werkt goed met Lombok.
 }
 

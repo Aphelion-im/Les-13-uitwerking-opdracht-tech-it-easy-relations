@@ -58,6 +58,7 @@ public class TelevisionController {
         }
     }
 
+    // Als een item niet verwijderd kan worden, in verband met relaties, geeft het alsnog een 204 No Content bericht
     @DeleteMapping("/televisions/{id}")
     public ResponseEntity<Object> deleteTelevision(@PathVariable Long id) {
         televisionService.deleteTelevision(id);
@@ -79,7 +80,7 @@ public class TelevisionController {
         return ResponseEntity.noContent().build();
     }
 
-    //Dit is een andere manier om het te doen, met twee Pathvariables, maar het kan uiteraard ook anders.
+    // Dit is een andere manier om het te doen, met twee Pathvariables, maar het kan uiteraard ook anders.
     @PutMapping("/televisions/{id}/{ciModuleId}")
     public ResponseEntity<Object> assignCIModuleToTelevision(@PathVariable("id") Long id, @PathVariable("ciModuleId") Long ciModuleId) {
         televisionService.assignCIModuleToTelevision(id, ciModuleId);

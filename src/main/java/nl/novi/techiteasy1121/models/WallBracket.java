@@ -1,7 +1,6 @@
 package nl.novi.techiteasy1121.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,6 +21,6 @@ public class WallBracket {
 
     // Dit is de target kant van de relatie. Er staat niks in de database
     @OneToMany(mappedBy = "wallBracket")
-    @JsonIgnore
+    @JsonIgnore // @JsonIgnore - Bij stack overflow foutmeldingen door een oneindige loop/recursie. Les 13 (2023/02): Video@1h18m
     List<TelevisionWallBracket> televisionWallBrackets;
 }

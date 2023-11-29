@@ -5,15 +5,12 @@ import nl.novi.techiteasy1121.dtos.CIModuleDto;
 import nl.novi.techiteasy1121.dtos.CIModuleInputDto;
 import nl.novi.techiteasy1121.exceptions.RecordNotFoundException;
 import nl.novi.techiteasy1121.models.CIModule;
-import nl.novi.techiteasy1121.models.Television;
 import nl.novi.techiteasy1121.repositories.CIModuleRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-// Deze klasse bevat de service methodes van de CIModuleController
 
 @Service
 @AllArgsConstructor

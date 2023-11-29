@@ -1,3 +1,4 @@
+// Enum vermelden in model, dto, inputDto, service & data.sql (Als indexnummers)
 package nl.novi.techiteasy1121.models;
 
 // Enum in Television

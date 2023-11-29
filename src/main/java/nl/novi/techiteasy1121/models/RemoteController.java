@@ -20,6 +20,6 @@ public class RemoteController {
     private Integer originalStock;
 
     // Dit is de target kant van de relatie. Er staat niks in de database
-    @OneToOne(mappedBy = "remoteController") // (mappedBy = "remoteController")?
+    @OneToOne(mappedBy = "remoteController") // The mappedBy attribute is used to define the referencing side (non-owning side) of the relationship.
     Television television;
 }
