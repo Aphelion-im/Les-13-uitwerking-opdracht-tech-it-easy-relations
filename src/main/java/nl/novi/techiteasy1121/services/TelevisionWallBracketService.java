@@ -31,7 +31,6 @@ public class TelevisionWallBracketService {
 
     private final TelevisionWallBracketRepository televisionWallBracketRepository;
 
-    // Ontdubbelen?
     public Collection<TelevisionDto> getTelevisionsByWallBracketId(Long wallBracketId) {
         Collection<TelevisionDto> televisionDtoCollection = new HashSet<>();
 

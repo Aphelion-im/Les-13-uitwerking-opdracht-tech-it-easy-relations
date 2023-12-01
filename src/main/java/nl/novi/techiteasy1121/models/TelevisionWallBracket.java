@@ -14,14 +14,14 @@ public class TelevisionWallBracket {
     private TelevisionWallBracketKey id;
 
     // Dit is de owner kant van de relatie. Er staat een foreign key in de database
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("televisionId")
+    @ManyToOne(fetch = FetchType.LAZY) // Eager Loading is a design pattern in which data initialization occurs on the spot. Lazy Loading is a design pattern that we use to defer initialization of an object as long as it’s possible.
+    @MapsId("televisionId") // https://www.geeksforgeeks.org/hibernate-mapsid-annotation/
     @JoinColumn(name = "television_id")
     private Television television;
 
     // Dit is de owner kan van de relatie. Er staat een foreign key in de database
     @ManyToOne
     @MapsId("wallBracketId")
-    @JoinColumn(name = "wall_bracket_id")
+    @JoinColumn(name = "wall_bracket_id") //
     private WallBracket wallBracket;
 }

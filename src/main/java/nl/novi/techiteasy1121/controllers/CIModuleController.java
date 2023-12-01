@@ -20,6 +20,7 @@ import static nl.novi.techiteasy1121.utilities.Utilities.getErrorString;
 @AllArgsConstructor
 public class CIModuleController {
 
+    // Alternative to @Autowired and Lombok @AllArgsConstructor dependency/constructor injection:
     private final CIModuleService ciModuleService;
 
     @GetMapping("/cimodules")
@@ -34,6 +35,7 @@ public class CIModuleController {
         return ResponseEntity.ok(ciModuleDto);
     }
 
+    // Nog niet duidelijk hoe je een outputDto retourneert als je een inputDto hebt.
     @PostMapping("/cimodules")
     public ResponseEntity<Object> addCIModule(@Valid @RequestBody CIModuleInputDto ciModuleInputDto, BindingResult br) {
         if (br.hasFieldErrors()) {

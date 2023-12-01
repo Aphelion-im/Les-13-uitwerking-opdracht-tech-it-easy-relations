@@ -59,7 +59,7 @@ public class Television {
     // Dit is de owner kan van de relatie. Er staat een foreign key in de database
     // Een OneToMany relatie tussen Television en CI-Module
     @ManyToOne(fetch = FetchType.EAGER) // fetch = FetchType.EAGER?
-    @JoinColumn(name = "ci_module_id") //  @JoinColumn(name = "ci_module_id")?
+    @JoinColumn(name = "ci_module_id") // Verwijst naar FK. https://www.geeksforgeeks.org/when-to-use-joincolumn-annotation-in-hibernate/?ref=ml_lbp
     private CIModule ciModule;
 
     // Dit is de target kant van de relatie. Er staat niks in de database
@@ -68,6 +68,7 @@ public class Television {
     // Waarom staat er OneToMany als het een ManyToMany is?
     @LazyCollection(LazyCollectionOption.FALSE)
     // When we set this option to FALSE, we enable the eager fetching approach. . The main idea of using the @LazyCollection is to control whether the fetching of data should be using the lazy approach or the eager one. https://www.baeldung.com/hibernate-lazycollection
-    @JsonIgnore // @JsonIgnore - Bij stack overflow foutmeldingen door een oneindige loop/recursie. Les 13 (2023/02): Video@1h18m
+    @JsonIgnore // @JsonIgnore - Bij stack overflow foutmeldingen door een oneindige loop/recursie. Les 13 (2023/02): Video@1h18m. Staat waarschijnlijk alleen boven List, Collections, etc.
             Collection<TelevisionWallBracket> televisionWallBrackets;
+
 }

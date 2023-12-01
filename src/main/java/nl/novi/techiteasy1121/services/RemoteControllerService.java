@@ -58,7 +58,6 @@ public class RemoteControllerService {
         }
     }
 
-    // Ontdubbelen?
     public RemoteControllerDto transferToDto(RemoteController remoteController) {
         RemoteControllerDto remoteControllerDto = new RemoteControllerDto();
 
@@ -73,7 +72,6 @@ public class RemoteControllerService {
         return remoteControllerDto;
     }
 
-    // Ontdubbelen?
     public RemoteController transferToRemoteController(RemoteControllerInputDto remoteControllerInputDto) {
         var remoteController = new RemoteController();
 

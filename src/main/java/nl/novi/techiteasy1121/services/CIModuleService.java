@@ -59,8 +59,10 @@ public class CIModuleService {
         }
     }
 
+    // Zijn dit de mappers?
     public CIModule transferToCIModule(CIModuleInputDto ciModuleInputDto) {
         var ciModule = new CIModule();
+        // ciModule.setId(ciModuleInputDto.getId()); InputDto heeft geen id.
         ciModule.setName(ciModuleInputDto.getName());
         ciModule.setType(ciModuleInputDto.getType());
         ciModule.setPrice(ciModuleInputDto.getPrice());

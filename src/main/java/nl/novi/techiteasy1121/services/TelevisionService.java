@@ -105,6 +105,7 @@ public class TelevisionService {
         }
     }
 
+    // Duplicate code omschrijven naar een method. Geen DRY.
     public Television transferToTelevision(TelevisionInputDto televisionInputDto) {
         var television = new Television();
         television.setTestEnum(televisionInputDto.getTestEnum());

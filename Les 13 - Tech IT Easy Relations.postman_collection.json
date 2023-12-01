@@ -1,0 +1,668 @@
+{
+	"info": {
+		"_postman_id": "5b3cadfa-2408-4ba6-ad34-b9c835df6b4c",
+		"name": "Les 13 - Tech IT Easy Relations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24308684"
+	},
+	"item": [
+		{
+			"name": "getAllCIModules",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/cimodules",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cimodules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCIModule",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/cimodules/1002",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cimodules",
+						"1002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addCIModule",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"universal CI-module v3\",\r\n    \"type\": \"23JI15\",\r\n    \"price\": 55.5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/cimodules",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cimodules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCIModule",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"universal CI-module v10\",\r\n    \"type\": \"23JI13\",\r\n    \"price\": 145.5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/cimodules/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cimodules",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteCIModule",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/cimodules/1001",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cimodules",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllTelevisions by brand",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/televisions?brand=Philips",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"televisions"
+					],
+					"query": [
+						{
+							"key": "brand",
+							"value": "Philips"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllTelevisions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/televisions",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"televisions"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getWallBracketsByTelevisionId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/televisions/wallBrackets/1002",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"televisions",
+						"wallBrackets",
+						"1002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTelevision",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/televisions/1002",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"televisions",
+						"1002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateTelevision",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"43PUS6504/12/L\",\r\n    \"brand\": \"Philips\",\r\n    \"name\": \"4K UHD LED Smart Tv\",\r\n    \"price\": 400.0,\r\n    \"availableSize\": 43.0,\r\n    \"refreshRate\": 60.0,\r\n    \"screenType\": \"LED\",\r\n    \"screenQuality\": \"Ultra HD\",\r\n    \"smartTv\": true,\r\n    \"wifi\": true,\r\n    \"voiceControl\": false,\r\n    \"hdr\": true,\r\n    \"bluetooth\": false,\r\n    \"ambiLight\": false,\r\n    \"originalStock\": 8569452,\r\n    \"sold\": 5685489,\r\n    \"ciModuleDto\": null,\r\n    \"remoteControllerDto\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/televisions/1002",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"televisions",
+						"1002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assignRemoteControllerToTelevision",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"id\" : 1002\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/televisions/1002/remotecontroller",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"televisions",
+						"1002",
+						"remotecontroller"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assignCIModuleToTelevision",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"id\" : 1002\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/televisions/1002/1001",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"televisions",
+						"1002",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addTelevision",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"NH3216SMART-v10\",\r\n    \"brand\": \"Nikkei\",\r\n    \"name\": \"HD smart TV\",\r\n    \"price\": 1159.0,\r\n    \"availableSize\": 32.0,\r\n    \"refreshRate\": 100.0,\r\n    \"screenType\": \"LED\",\r\n    \"screenQuality\": \"HD ready\",\r\n    \"smartTv\": true,\r\n    \"wifi\": true,\r\n    \"voiceControl\": false,\r\n    \"hdr\": true,\r\n    \"bluetooth\": false,\r\n    \"ambiLight\": false,\r\n    \"originalStock\": 235885,\r\n    \"sold\": 45896,\r\n    \"ciModuleDto\": null,\r\n    \"remoteControllerDto\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/televisions",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"televisions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteTelevision",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/televisions/1001",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"televisions",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllRemotecontrollers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/remotecontrollers",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"remotecontrollers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getRemotecontroller",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/remotecontrollers/1001",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"remotecontrollers",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addRemoteController",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"compatibleWith\": \"NH3216SMART\",\r\n    \"batteryType\": \"AAA\",\r\n    \"name\": \"Nikkei HD smart TV controller\",\r\n    \"brand\": \"Nikkei\",\r\n    \"price\": 12.99,\r\n    \"originalStock\": 235885\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/remotecontrollers",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"remotecontrollers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteRemoteController",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/remotecontrollers/1001",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"remotecontrollers",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateRemoteController",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"compatibleWith\": \"NH3216SMART-v30\",\r\n    \"batteryType\": \"AAA\",\r\n    \"name\": \"Nikkei HD smart TV controller\",\r\n    \"brand\": \"Nikkei\",\r\n    \"price\": 12.99,\r\n    \"originalStock\": 235885\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/remotecontrollers/1002",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"remotecontrollers",
+						"1002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllWallBrackets",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"compatibleWith\": \"NH3216SMART-v2\",\r\n    \"batteryType\": \"AAA\",\r\n    \"name\": \"Nikkei HD smart TV controller\",\r\n    \"brand\": \"Nikkei\",\r\n    \"price\": 12.99,\r\n    \"originalStock\": 235885\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/wallbrackets",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"wallbrackets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getWallBracket",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"compatibleWith\": \"NH3216SMART-v2\",\r\n    \"batteryType\": \"AAA\",\r\n    \"name\": \"Nikkei HD smart TV controller\",\r\n    \"brand\": \"Nikkei\",\r\n    \"price\": 12.99,\r\n    \"originalStock\": 235885\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/wallbrackets/1002",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"wallbrackets",
+						"1002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addWallBracket",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"size\": \"25X32/32X40-X3000\",\r\n    \"adjustable\": true,\r\n    \"name\": \"LG bracket\",\r\n    \"price\": 32.23\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/wallbrackets",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"wallbrackets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteWallBracket",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/wallbrackets/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"wallbrackets",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateWallBracket",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"size\": \"25X32/32X40-T800\",\r\n    \"adjustable\": true,\r\n    \"name\": \"LG bracket\",\r\n    \"price\": 32.23\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/wallbrackets/1001",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"wallbrackets",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTelevisionsByWallBracketId",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"size\": \"25X32/32X40-T800\",\r\n    \"adjustable\": true,\r\n    \"name\": \"LG bracket\",\r\n    \"price\": 32.23\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/wallbrackets/televisions/1003",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"wallbrackets",
+						"televisions",
+						"1003"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addTelevisionWallBracket",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/tvwb/1001/1003",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tvwb",
+						"1001",
+						"1003"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteTelevisionWallBracket",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/tvwb/1001/1003",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tvwb",
+						"1001",
+						"1003"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
