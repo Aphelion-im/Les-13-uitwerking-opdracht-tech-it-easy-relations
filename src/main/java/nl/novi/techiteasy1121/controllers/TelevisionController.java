@@ -54,7 +54,7 @@ public class TelevisionController {
             Long id = televisionService.addTelevision(televisionInputDto).getId();
             URI uri = URI.create(ServletUriComponentsBuilder
                     .fromCurrentRequest().path("/" + id).toUriString());
-            return ResponseEntity.created(uri).body(televisionInputDto);
+            return ResponseEntity.created(uri).body("Television added with id: " + id); // Of: body(televisionInputDto)
         }
     }
 

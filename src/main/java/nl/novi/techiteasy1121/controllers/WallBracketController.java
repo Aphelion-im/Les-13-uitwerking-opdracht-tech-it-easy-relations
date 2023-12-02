@@ -50,7 +50,7 @@ public class WallBracketController {
             Long id = wallBracketService.addWallbracket(wallBracketInputDto).getId();
             URI uri = URI.create(ServletUriComponentsBuilder
                     .fromCurrentRequest().path("/" + id).toUriString());
-            return ResponseEntity.created(uri).body(wallBracketInputDto);
+            return ResponseEntity.created(uri).body("Wallbracket added with id: " + id); // Of: body(wallBracketInputDto)
         }
     }
 

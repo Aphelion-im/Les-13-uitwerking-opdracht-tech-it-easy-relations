@@ -45,7 +45,7 @@ public class CIModuleController {
             Long id = ciModuleService.addCIModule(ciModuleInputDto).getId();
             URI uri = URI.create(ServletUriComponentsBuilder
                     .fromCurrentRequest().path("/" + id).toUriString());
-            return ResponseEntity.created(uri).body(ciModuleInputDto);
+            return ResponseEntity.created(uri).body("CIModule added with id: " + id); // of body(ciModuleInputDto)
         }
     }
 

@@ -42,7 +42,7 @@ public class RemoteControllerController {
             Long id = remoteControllerService.addRemoteController(remoteControllerInputDto).getId();
             URI uri = URI.create(ServletUriComponentsBuilder
                     .fromCurrentRequest().path("/" + id).toUriString());
-            return ResponseEntity.created(uri).body(remoteControllerInputDto);
+            return ResponseEntity.created(uri).body("Remote controller added with id: " + id); // Of: body(remoteControllerInputDto)
         }
     }
 
