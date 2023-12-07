@@ -64,8 +64,8 @@ public class Television {
 
     // Dit is de target kant van de relatie. Er staat niks in de database
     // @OneToMany(mappedBy = "television") // Waarom staat er OneToMany als het een ManyToMany is? -- Origineel
+    // Les 13 PDF: Een many-to-many bestaat uit: Book(1)<--(0..*)BookAuthor(0..*)-->(1)Author. 0..* is zelfde als: 1..*
     @OneToMany(mappedBy = "television", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    // Waarom staat er OneToMany als het een ManyToMany is?
     @LazyCollection(LazyCollectionOption.FALSE)
     // When we set this option to FALSE, we enable the eager fetching approach. . The main idea of using the @LazyCollection is to control whether the fetching of data should be using the lazy approach or the eager one. https://www.baeldung.com/hibernate-lazycollection
     @JsonIgnore // @JsonIgnore - Bij stack overflow foutmeldingen door een oneindige loop/recursie. Les 13 (2023/02): Video@1h18m. Staat waarschijnlijk alleen boven List, Collections, etc.
