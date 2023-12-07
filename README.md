@@ -1,6 +1,7 @@
 # Opdrachtbeschrijving
 
 ![Tech It Easy klassendiagram](./assets/les-7-techItEasy-Klassendiagram-uitwerking-novi.png)
+![Tech It Easy klassendiagram](./assets/many-to-many.jpg)
 
 ## Inleiding
 
